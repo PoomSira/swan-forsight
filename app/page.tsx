@@ -192,7 +192,7 @@ export default function EnergyDashboard() {
                     {(latest.pv2_power_w || 0).toLocaleString()}W
                   </p>
                   <UITooltip>
-                    <TooltipTrigger className="absolute bottom-2 right-2">
+                    <TooltipTrigger className="absolute bottom-2 right-3">
                       <Info className="h-4 w-4 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="left" className="max-w-xs">
@@ -238,7 +238,7 @@ export default function EnergyDashboard() {
                     Health: {(latest.battery_soh_pct || 0).toFixed(1)}%
                   </p>
                   <UITooltip>
-                    <TooltipTrigger className="absolute bottom-2 right-2">
+                    <TooltipTrigger className="absolute bottom-2 right-3">
                       <Info className="h-4 w-4 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="left" className="max-w-xs">
@@ -287,7 +287,7 @@ export default function EnergyDashboard() {
                     Active consumption
                   </p>
                   <UITooltip>
-                    <TooltipTrigger className="absolute bottom-2 right-2">
+                    <TooltipTrigger className="absolute bottom-2 right-3">
                       <Info className="h-4 w-4 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="left" className="max-w-xs">
@@ -334,7 +334,7 @@ export default function EnergyDashboard() {
                     Grid: {(latest.grid_frequency_hz || 0).toFixed(2)} Hz
                   </p>
                   <UITooltip>
-                    <TooltipTrigger className="absolute bottom-2 right-2">
+                    <TooltipTrigger className="absolute bottom-2 right-3">
                       <Info className="h-4 w-4 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="left" className="max-w-xs">
