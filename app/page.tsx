@@ -200,8 +200,8 @@ export default function EnergyDashboard() {
                         <p className="font-semibold">Total PV Power</p>
                         <p className="text-sm">
                           Energy currently being generated from your solar
-                          panels. During the day, higher values indicate
-                          better sunlight. At night, this should be near zero.
+                          panels. During the day, higher values indicate better
+                          sunlight. At night, this should be near zero.
                         </p>
                         <p className="text-xs text-muted-foreground mt-2">
                           <strong>PV1 & PV2:</strong> Your solar panel strings
@@ -248,9 +248,9 @@ export default function EnergyDashboard() {
                         </p>
                         <p className="text-sm">
                           Percentage of battery remaining. Used to power your
-                          home when solar panels aren&apos;t generating
-                          energy. Low levels (&lt;20%) mean the system may
-                          soon switch to grid power.
+                          home when solar panels aren&apos;t generating energy.
+                          Low levels (&lt;20%) mean the system may soon switch
+                          to grid power.
                         </p>
                         <p className="text-xs text-muted-foreground mt-2">
                           <strong>Health (SoH):</strong> Long-term battery
@@ -295,9 +295,8 @@ export default function EnergyDashboard() {
                         <p className="font-semibold">Load Power</p>
                         <p className="text-sm">
                           Total electricity your home is consuming right now.
-                          This includes lights, appliances, HVAC,
-                          refrigerators, and all devices running
-                          simultaneously.
+                          This includes lights, appliances, HVAC, refrigerators,
+                          and all devices running simultaneously.
                         </p>
                         <p className="text-xs text-muted-foreground mt-2">
                           Lower values at night indicate minimal power usage.
@@ -344,17 +343,17 @@ export default function EnergyDashboard() {
                           Inverter Temperature & Grid Frequency
                         </p>
                         <p className="text-sm">
-                          <strong>Temperature:</strong> Operating temperature
-                          of your inverter. Normal range is 20-40°C. Above
-                          50-60°C may indicate thermal stress. The inverter is
-                          the &quot;brain&quot; converting DC solar power to
-                          AC home power.
+                          <strong>Temperature:</strong> Operating temperature of
+                          your inverter. Normal range is 20-40°C. Above 50-60°C
+                          may indicate thermal stress. The inverter is the
+                          &quot;brain&quot; converting DC solar power to AC home
+                          power.
                         </p>
                         <p className="text-sm">
                           <strong>Grid Frequency:</strong> 50 Hz
-                          (Australia/Europe) or 60 Hz (North America).
-                          Standard &quot;heartbeat&quot; of the electricity
-                          grid. Indicates system synchronization.
+                          (Australia/Europe) or 60 Hz (North America). Standard
+                          &quot;heartbeat&quot; of the electricity grid.
+                          Indicates system synchronization.
                         </p>
                       </div>
                     </TooltipContent>
