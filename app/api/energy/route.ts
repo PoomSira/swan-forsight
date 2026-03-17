@@ -16,6 +16,10 @@ export async function POST(req: Request) {
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     const apiKey = req.headers.get("x-api-key");
+
+    // Add this log to your Next.js POST function to debug
+    console.log("Expected Key:", process.env.FOXESS_API_KEY);
+    console.log("Received Key:", apiKey);
     if (apiKey !== process.env.FOXESS_API_KEY) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
