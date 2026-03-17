@@ -7,7 +7,7 @@ import mapboxgl from "mapbox-gl";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
 
-mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || "";
+mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN || "";
 
 export default function Page() {
   const mapContainerRef = useRef<HTMLDivElement>(null);

@@ -1,13 +1,20 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-);
-
 export async function POST(req: Request) {
   try {
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
+      return NextResponse.json(
+        { error: "Supabase configuration missing" },
+        { status: 500 },
+      );
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
     const apiKey = req.headers.get("x-api-key");
     if (apiKey !== process.env.FOXESS_API_KEY) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
