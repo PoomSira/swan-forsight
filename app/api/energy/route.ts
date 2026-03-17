@@ -62,18 +62,40 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  const { data, error } = await supabase
-    .from("foxess_readings")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(20);
+  try {
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (error) {
+    if (!supabaseUrl || !supabaseKey) {
+      return NextResponse.json(
+        { error: "Supabase configuration missing" },
+        { status: 500 },
+      );
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const { data, error } = await supabase
+      .from("foxess_readings")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(20);
+
+    if (error) {
+      return NextResponse.json(
+        { error: "Failed to fetch data", details: error.message },
+        { status: 500 },
+      );
+    }
+
+    return NextResponse.json(data);
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Unknown server error";
+
     return NextResponse.json(
-      { error: "Failed to fetch data", details: error.message },
+      { error: "Failed to fetch readings", details: message },
       { status: 500 },
     );
   }
-
-  return NextResponse.json(data);
 }
