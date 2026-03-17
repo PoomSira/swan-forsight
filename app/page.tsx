@@ -41,9 +41,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SiteHeader } from "@/components/site-header";
 
 interface EnergyReading {
   id: string;
@@ -173,203 +170,203 @@ export default function EnergyDashboard() {
           >
             {/* PV Power */}
             <motion.div variants={itemVariants} className="w-full">
-              <UITooltip>
-                <TooltipTrigger className="w-full">
-                  <Card className="w-full h-full overflow-hidden cursor-help hover:shadow-lg transition-shadow">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                      <CardTitle className="text-sm font-medium">
-                        PV Power
-                      </CardTitle>
-                      <div className="flex gap-1">
-                        <Zap className="h-4 w-4 text-yellow-500" />
-                        <Info className="h-4 w-4 text-muted-foreground" />
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <motion.div
-                        className="text-2xl font-bold"
-                        key={latest.total_pv_power_w}
-                        variants={valueVariants}
-                        initial="initial"
-                        animate="animate"
-                      >
-                        {(latest.total_pv_power_w || 0).toLocaleString()}W
-                      </motion.div>
-                      <p className="text-xs text-muted-foreground">
-                        PV1: {(latest.pv1_power_w || 0).toLocaleString()}W |
-                        PV2: {(latest.pv2_power_w || 0).toLocaleString()}W
-                      </p>
-                    </CardContent>
-                  </Card>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
-                  <div className="space-y-2">
-                    <p className="font-semibold">Total PV Power</p>
-                    <p className="text-sm">
-                      Energy currently being generated from your solar panels.
-                      During the day, higher values indicate better sunlight. At
-                      night, this should be near zero.
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-2">
-                      <strong>PV1 & PV2:</strong> Your solar panel strings on
-                      different sides of your roof. Different voltages are
-                      normal.
-                    </p>
+              <Card className="w-full h-full overflow-hidden hover:shadow-lg transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    PV Power
+                  </CardTitle>
+                  <div className="flex gap-1 items-center">
+                    <Zap className="h-4 w-4 text-yellow-500" />
+                    <UITooltip>
+                      <TooltipTrigger>
+                        <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-xs">
+                        <div className="space-y-2">
+                          <p className="font-semibold">Total PV Power</p>
+                          <p className="text-sm">
+                            Energy currently being generated from your solar panels.
+                            During the day, higher values indicate better sunlight. At
+                            night, this should be near zero.
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-2">
+                            <strong>PV1 & PV2:</strong> Your solar panel strings on
+                            different sides of your roof. Different voltages are
+                            normal.
+                          </p>
+                        </div>
+                      </TooltipContent>
+                    </UITooltip>
                   </div>
-                </TooltipContent>
-              </UITooltip>
+                </CardHeader>
+                <CardContent>
+                  <motion.div
+                    className="text-2xl font-bold"
+                    key={latest.total_pv_power_w}
+                    variants={valueVariants}
+                    initial="initial"
+                    animate="animate"
+                  >
+                    {(latest.total_pv_power_w || 0).toLocaleString()}W
+                  </motion.div>
+                  <p className="text-xs text-muted-foreground">
+                    PV1: {(latest.pv1_power_w || 0).toLocaleString()}W |
+                    PV2: {(latest.pv2_power_w || 0).toLocaleString()}W
+                  </p>
+                </CardContent>
+              </Card>
             </motion.div>
 
             {/* Battery Status */}
             <motion.div variants={itemVariants} className="w-full">
-              <UITooltip>
-                <TooltipTrigger className="w-full">
-                  <Card className="w-full h-full overflow-hidden cursor-help hover:shadow-lg transition-shadow">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                      <CardTitle className="text-sm font-medium">
-                        Battery SOC
-                      </CardTitle>
-                      <div className="flex gap-1">
-                        <Battery className="h-4 w-4 text-blue-500" />
-                        <Info className="h-4 w-4 text-muted-foreground" />
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <motion.div
-                        className="text-2xl font-bold"
-                        key={latest.battery_soc_pct}
-                        variants={valueVariants}
-                        initial="initial"
-                        animate="animate"
-                      >
-                        {(latest.battery_soc_pct || 0).toFixed(1)}%
-                      </motion.div>
-                      <p className="text-xs text-muted-foreground">
-                        Health: {(latest.battery_soh_pct || 0).toFixed(1)}%
-                      </p>
-                    </CardContent>
-                  </Card>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
-                  <div className="space-y-2">
-                    <p className="font-semibold">
-                      Battery State of Charge (SOC)
-                    </p>
-                    <p className="text-sm">
-                      Percentage of battery remaining. Used to power your home
-                      when solar panels aren&apos;t generating energy. Low
-                      levels (&lt;20%) mean the system may soon switch to grid
-                      power.
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-2">
-                      <strong>Health (SoH):</strong> Long-term battery
-                      condition. High values (90%+) indicate excellent battery
-                      health with minimal wear.
-                    </p>
+              <Card className="w-full h-full overflow-hidden hover:shadow-lg transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Battery SOC
+                  </CardTitle>
+                  <div className="flex gap-1 items-center">
+                    <Battery className="h-4 w-4 text-blue-500" />
+                    <UITooltip>
+                      <TooltipTrigger>
+                        <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-xs">
+                        <div className="space-y-2">
+                          <p className="font-semibold">
+                            Battery State of Charge (SOC)
+                          </p>
+                          <p className="text-sm">
+                            Percentage of battery remaining. Used to power your home
+                            when solar panels aren&apos;t generating energy. Low
+                            levels (&lt;20%) mean the system may soon switch to grid
+                            power.
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-2">
+                            <strong>Health (SoH):</strong> Long-term battery
+                            condition. High values (90%+) indicate excellent battery
+                            health with minimal wear.
+                          </p>
+                        </div>
+                      </TooltipContent>
+                    </UITooltip>
                   </div>
-                </TooltipContent>
-              </UITooltip>
+                </CardHeader>
+                <CardContent>
+                  <motion.div
+                    className="text-2xl font-bold"
+                    key={latest.battery_soc_pct}
+                    variants={valueVariants}
+                    initial="initial"
+                    animate="animate"
+                  >
+                    {(latest.battery_soc_pct || 0).toFixed(1)}%
+                  </motion.div>
+                  <p className="text-xs text-muted-foreground">
+                    Health: {(latest.battery_soh_pct || 0).toFixed(1)}%
+                  </p>
+                </CardContent>
+              </Card>
             </motion.div>
 
             {/* Load Power */}
             <motion.div variants={itemVariants} className="w-full">
-              <UITooltip>
-                <TooltipTrigger className="w-full">
-                  <Card className="w-full h-full overflow-hidden cursor-help hover:shadow-lg transition-shadow">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                      <CardTitle className="text-sm font-medium">
-                        Load Power
-                      </CardTitle>
-                      <div className="flex gap-1">
-                        <Gauge className="h-4 w-4 text-green-500" />
-                        <Info className="h-4 w-4 text-muted-foreground" />
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <motion.div
-                        className="text-2xl font-bold"
-                        key={latest.load_power_w}
-                        variants={valueVariants}
-                        initial="initial"
-                        animate="animate"
-                      >
-                        {(latest.load_power_w || 0).toLocaleString()}W
-                      </motion.div>
-                      <p className="text-xs text-muted-foreground">
-                        Active consumption
-                      </p>
-                    </CardContent>
-                  </Card>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
-                  <div className="space-y-2">
-                    <p className="font-semibold">Load Power</p>
-                    <p className="text-sm">
-                      Total electricity your home is consuming right now. This
-                      includes lights, appliances, HVAC, refrigerators, and all
-                      devices running simultaneously.
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-2">
-                      Lower values at night indicate minimal power usage.
-                      Compare this with battery discharge rate to estimate
-                      battery runtime.
-                    </p>
+              <Card className="w-full h-full overflow-hidden hover:shadow-lg transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Load Power
+                  </CardTitle>
+                  <div className="flex gap-1 items-center">
+                    <Gauge className="h-4 w-4 text-green-500" />
+                    <UITooltip>
+                      <TooltipTrigger>
+                        <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-xs">
+                        <div className="space-y-2">
+                          <p className="font-semibold">Load Power</p>
+                          <p className="text-sm">
+                            Total electricity your home is consuming right now.
+                            This includes lights, appliances, HVAC, refrigerators,
+                            and all devices running simultaneously.
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-2">
+                            Lower values at night indicate minimal power usage.
+                            Compare this with battery discharge rate to estimate
+                            battery runtime.
+                          </p>
+                        </div>
+                      </TooltipContent>
+                    </UITooltip>
                   </div>
-                </TooltipContent>
-              </UITooltip>
+                </CardHeader>
+                <CardContent>
+                  <motion.div
+                    className="text-2xl font-bold"
+                    key={latest.load_power_w}
+                    variants={valueVariants}
+                    initial="initial"
+                    animate="animate"
+                  >
+                    {(latest.load_power_w || 0).toLocaleString()}W
+                  </motion.div>
+                  <p className="text-xs text-muted-foreground">
+                    Active consumption
+                  </p>
+                </CardContent>
+              </Card>
             </motion.div>
 
             {/* Inverter Temperature */}
             <motion.div variants={itemVariants} className="w-full">
-              <UITooltip>
-                <TooltipTrigger className="w-full">
-                  <Card className="w-full h-full overflow-hidden cursor-help hover:shadow-lg transition-shadow">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                      <CardTitle className="text-sm font-medium">
-                        Inverter Temp
-                      </CardTitle>
-                      <div className="flex gap-1">
-                        <Thermometer className="h-4 w-4 text-red-500" />
-                        <Info className="h-4 w-4 text-muted-foreground" />
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <motion.div
-                        className="text-2xl font-bold"
-                        key={latest.inverter_temperature_c}
-                        variants={valueVariants}
-                        initial="initial"
-                        animate="animate"
-                      >
-                        {(latest.inverter_temperature_c || 0).toFixed(1)}
-                        °C
-                      </motion.div>
-                      <p className="text-xs text-muted-foreground">
-                        Grid: {(latest.grid_frequency_hz || 0).toFixed(2)} Hz
-                      </p>
-                    </CardContent>
-                  </Card>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
-                  <div className="space-y-2">
-                    <p className="font-semibold">
-                      Inverter Temperature & Grid Frequency
-                    </p>
-                    <p className="text-sm">
-                      <strong>Temperature:</strong> Operating temperature of
-                      your inverter. Normal range is 20-40°C. Above 50-60°C may
-                      indicate thermal stress. The inverter is the
-                      &quot;brain&quot; converting DC solar power to AC home
-                      power.
-                    </p>
-                    <p className="text-sm">
-                      <strong>Grid Frequency:</strong> 50 Hz (Australia/Europe)
-                      or 60 Hz (North America). Standard &quot;heartbeat&quot;
-                      of the electricity grid. Indicates system synchronization.
-                    </p>
+              <Card className="w-full h-full overflow-hidden hover:shadow-lg transition-shadow">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Inverter Temp
+                  </CardTitle>
+                  <div className="flex gap-1 items-center">
+                    <Thermometer className="h-4 w-4 text-red-500" />
+                    <UITooltip>
+                      <TooltipTrigger>
+                        <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="max-w-xs">
+                        <div className="space-y-2">
+                          <p className="font-semibold">
+                            Inverter Temperature & Grid Frequency
+                          </p>
+                          <p className="text-sm">
+                            <strong>Temperature:</strong> Operating temperature of
+                            your inverter. Normal range is 20-40°C. Above 50-60°C may
+                            indicate thermal stress. The inverter is the
+                            &quot;brain&quot; converting DC solar power to AC home
+                            power.
+                          </p>
+                          <p className="text-sm">
+                            <strong>Grid Frequency:</strong> 50 Hz (Australia/Europe)
+                            or 60 Hz (North America). Standard &quot;heartbeat&quot;
+                            of the electricity grid. Indicates system synchronization.
+                          </p>
+                        </div>
+                      </TooltipContent>
+                    </UITooltip>
                   </div>
-                </TooltipContent>
-              </UITooltip>
+                </CardHeader>
+                <CardContent>
+                  <motion.div
+                    className="text-2xl font-bold"
+                    key={latest.inverter_temperature_c}
+                    variants={valueVariants}
+                    initial="initial"
+                    animate="animate"
+                  >
+                    {(latest.inverter_temperature_c || 0).toFixed(1)}
+                    °C
+                  </motion.div>
+                  <p className="text-xs text-muted-foreground">
+                    Grid: {(latest.grid_frequency_hz || 0).toFixed(2)} Hz
+                  </p>
+                </CardContent>
+              </Card>
             </motion.div>
           </motion.div>
 
