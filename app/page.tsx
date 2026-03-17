@@ -150,9 +150,9 @@ export default function EnergyDashboard() {
     >
       {error && (
         <motion.div variants={itemVariants}>
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
+          <Alert variant="destructive" className="relative">
             <AlertDescription>{error}</AlertDescription>
+            <AlertCircle className="h-5 w-5 absolute bottom-4 right-4" />
           </Alert>
         </motion.div>
       )}
@@ -175,31 +175,9 @@ export default function EnergyDashboard() {
                   <CardTitle className="text-sm font-medium">
                     PV Power
                   </CardTitle>
-                  <div className="flex gap-1 items-center">
-                    <Zap className="h-4 w-4 text-yellow-500" />
-                    <UITooltip>
-                      <TooltipTrigger>
-                        <Info className="h-4 w-4 text-muted-foreground cursor-help" />
-                      </TooltipTrigger>
-                      <TooltipContent side="top" className="max-w-xs">
-                        <div className="space-y-2">
-                          <p className="font-semibold">Total PV Power</p>
-                          <p className="text-sm">
-                            Energy currently being generated from your solar panels.
-                            During the day, higher values indicate better sunlight. At
-                            night, this should be near zero.
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-2">
-                            <strong>PV1 & PV2:</strong> Your solar panel strings on
-                            different sides of your roof. Different voltages are
-                            normal.
-                          </p>
-                        </div>
-                      </TooltipContent>
-                    </UITooltip>
-                  </div>
+                  <Zap className="h-4 w-4 text-yellow-500" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="relative">
                   <motion.div
                     className="text-2xl font-bold"
                     key={latest.total_pv_power_w}
@@ -210,9 +188,29 @@ export default function EnergyDashboard() {
                     {(latest.total_pv_power_w || 0).toLocaleString()}W
                   </motion.div>
                   <p className="text-xs text-muted-foreground">
-                    PV1: {(latest.pv1_power_w || 0).toLocaleString()}W |
-                    PV2: {(latest.pv2_power_w || 0).toLocaleString()}W
+                    PV1: {(latest.pv1_power_w || 0).toLocaleString()}W | PV2:{" "}
+                    {(latest.pv2_power_w || 0).toLocaleString()}W
                   </p>
+                  <UITooltip>
+                    <TooltipTrigger className="absolute bottom-2 right-2">
+                      <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent side="left" className="max-w-xs">
+                      <div className="space-y-2">
+                        <p className="font-semibold">Total PV Power</p>
+                        <p className="text-sm">
+                          Energy currently being generated from your solar
+                          panels. During the day, higher values indicate
+                          better sunlight. At night, this should be near zero.
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          <strong>PV1 & PV2:</strong> Your solar panel strings
+                          on different sides of your roof. Different voltages
+                          are normal.
+                        </p>
+                      </div>
+                    </TooltipContent>
+                  </UITooltip>
                 </CardContent>
               </Card>
             </motion.div>
@@ -224,34 +222,9 @@ export default function EnergyDashboard() {
                   <CardTitle className="text-sm font-medium">
                     Battery SOC
                   </CardTitle>
-                  <div className="flex gap-1 items-center">
-                    <Battery className="h-4 w-4 text-blue-500" />
-                    <UITooltip>
-                      <TooltipTrigger>
-                        <Info className="h-4 w-4 text-muted-foreground cursor-help" />
-                      </TooltipTrigger>
-                      <TooltipContent side="top" className="max-w-xs">
-                        <div className="space-y-2">
-                          <p className="font-semibold">
-                            Battery State of Charge (SOC)
-                          </p>
-                          <p className="text-sm">
-                            Percentage of battery remaining. Used to power your home
-                            when solar panels aren&apos;t generating energy. Low
-                            levels (&lt;20%) mean the system may soon switch to grid
-                            power.
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-2">
-                            <strong>Health (SoH):</strong> Long-term battery
-                            condition. High values (90%+) indicate excellent battery
-                            health with minimal wear.
-                          </p>
-                        </div>
-                      </TooltipContent>
-                    </UITooltip>
-                  </div>
+                  <Battery className="h-4 w-4 text-blue-500" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="relative">
                   <motion.div
                     className="text-2xl font-bold"
                     key={latest.battery_soc_pct}
@@ -264,6 +237,29 @@ export default function EnergyDashboard() {
                   <p className="text-xs text-muted-foreground">
                     Health: {(latest.battery_soh_pct || 0).toFixed(1)}%
                   </p>
+                  <UITooltip>
+                    <TooltipTrigger className="absolute bottom-2 right-2">
+                      <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent side="left" className="max-w-xs">
+                      <div className="space-y-2">
+                        <p className="font-semibold">
+                          Battery State of Charge (SOC)
+                        </p>
+                        <p className="text-sm">
+                          Percentage of battery remaining. Used to power your
+                          home when solar panels aren&apos;t generating
+                          energy. Low levels (&lt;20%) mean the system may
+                          soon switch to grid power.
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          <strong>Health (SoH):</strong> Long-term battery
+                          condition. High values (90%+) indicate excellent
+                          battery health with minimal wear.
+                        </p>
+                      </div>
+                    </TooltipContent>
+                  </UITooltip>
                 </CardContent>
               </Card>
             </motion.div>
@@ -275,31 +271,9 @@ export default function EnergyDashboard() {
                   <CardTitle className="text-sm font-medium">
                     Load Power
                   </CardTitle>
-                  <div className="flex gap-1 items-center">
-                    <Gauge className="h-4 w-4 text-green-500" />
-                    <UITooltip>
-                      <TooltipTrigger>
-                        <Info className="h-4 w-4 text-muted-foreground cursor-help" />
-                      </TooltipTrigger>
-                      <TooltipContent side="top" className="max-w-xs">
-                        <div className="space-y-2">
-                          <p className="font-semibold">Load Power</p>
-                          <p className="text-sm">
-                            Total electricity your home is consuming right now.
-                            This includes lights, appliances, HVAC, refrigerators,
-                            and all devices running simultaneously.
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-2">
-                            Lower values at night indicate minimal power usage.
-                            Compare this with battery discharge rate to estimate
-                            battery runtime.
-                          </p>
-                        </div>
-                      </TooltipContent>
-                    </UITooltip>
-                  </div>
+                  <Gauge className="h-4 w-4 text-green-500" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="relative">
                   <motion.div
                     className="text-2xl font-bold"
                     key={latest.load_power_w}
@@ -312,6 +286,27 @@ export default function EnergyDashboard() {
                   <p className="text-xs text-muted-foreground">
                     Active consumption
                   </p>
+                  <UITooltip>
+                    <TooltipTrigger className="absolute bottom-2 right-2">
+                      <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent side="left" className="max-w-xs">
+                      <div className="space-y-2">
+                        <p className="font-semibold">Load Power</p>
+                        <p className="text-sm">
+                          Total electricity your home is consuming right now.
+                          This includes lights, appliances, HVAC,
+                          refrigerators, and all devices running
+                          simultaneously.
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Lower values at night indicate minimal power usage.
+                          Compare this with battery discharge rate to estimate
+                          battery runtime.
+                        </p>
+                      </div>
+                    </TooltipContent>
+                  </UITooltip>
                 </CardContent>
               </Card>
             </motion.div>
@@ -323,35 +318,9 @@ export default function EnergyDashboard() {
                   <CardTitle className="text-sm font-medium">
                     Inverter Temp
                   </CardTitle>
-                  <div className="flex gap-1 items-center">
-                    <Thermometer className="h-4 w-4 text-red-500" />
-                    <UITooltip>
-                      <TooltipTrigger>
-                        <Info className="h-4 w-4 text-muted-foreground cursor-help" />
-                      </TooltipTrigger>
-                      <TooltipContent side="top" className="max-w-xs">
-                        <div className="space-y-2">
-                          <p className="font-semibold">
-                            Inverter Temperature & Grid Frequency
-                          </p>
-                          <p className="text-sm">
-                            <strong>Temperature:</strong> Operating temperature of
-                            your inverter. Normal range is 20-40°C. Above 50-60°C may
-                            indicate thermal stress. The inverter is the
-                            &quot;brain&quot; converting DC solar power to AC home
-                            power.
-                          </p>
-                          <p className="text-sm">
-                            <strong>Grid Frequency:</strong> 50 Hz (Australia/Europe)
-                            or 60 Hz (North America). Standard &quot;heartbeat&quot;
-                            of the electricity grid. Indicates system synchronization.
-                          </p>
-                        </div>
-                      </TooltipContent>
-                    </UITooltip>
-                  </div>
+                  <Thermometer className="h-4 w-4 text-red-500" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="relative">
                   <motion.div
                     className="text-2xl font-bold"
                     key={latest.inverter_temperature_c}
@@ -365,6 +334,31 @@ export default function EnergyDashboard() {
                   <p className="text-xs text-muted-foreground">
                     Grid: {(latest.grid_frequency_hz || 0).toFixed(2)} Hz
                   </p>
+                  <UITooltip>
+                    <TooltipTrigger className="absolute bottom-2 right-2">
+                      <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent side="left" className="max-w-xs">
+                      <div className="space-y-2">
+                        <p className="font-semibold">
+                          Inverter Temperature & Grid Frequency
+                        </p>
+                        <p className="text-sm">
+                          <strong>Temperature:</strong> Operating temperature
+                          of your inverter. Normal range is 20-40°C. Above
+                          50-60°C may indicate thermal stress. The inverter is
+                          the &quot;brain&quot; converting DC solar power to
+                          AC home power.
+                        </p>
+                        <p className="text-sm">
+                          <strong>Grid Frequency:</strong> 50 Hz
+                          (Australia/Europe) or 60 Hz (North America).
+                          Standard &quot;heartbeat&quot; of the electricity
+                          grid. Indicates system synchronization.
+                        </p>
+                      </div>
+                    </TooltipContent>
+                  </UITooltip>
                 </CardContent>
               </Card>
             </motion.div>
