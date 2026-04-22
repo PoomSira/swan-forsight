@@ -45,6 +45,11 @@ const data = {
       icon: <LayoutDashboardIcon />,
     },
     {
+      title: "Vulnerability Scan",
+      url: "/vulnerability-scan",
+      icon: <Radar />,
+    },
+    {
       title: "Asset Manger",
       url: "/asset-manager",
       icon: <ListIcon />,
@@ -58,11 +63,6 @@ const data = {
       title: "Energy Monitoring",
       url: "/energy-monitoring",
       icon: <BatteryPlusIcon />,
-    },
-    {
-      title: "Vulnerability Scan",
-      url: "/vulnerability-scan",
-      icon: <Radar />,
     },
   ],
   navClouds: [

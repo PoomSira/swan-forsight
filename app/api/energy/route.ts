@@ -1,6 +1,20 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
+type IncomingBody = {
+  reading_number?: number;
+  summary?: Record<string, unknown>;
+  device?: Record<string, unknown>;
+  vulnerability_findings?: unknown[];
+  events?: unknown[];
+  [key: string]: unknown;
+};
+
+function normalizeArray(value: unknown, maxItems = 100): unknown[] {
+  if (!Array.isArray(value)) return [];
+  return value.slice(0, maxItems);
+}
+
 export async function POST(req: Request) {
   try {
     const supabaseUrl = process.env.SUPABASE_URL;
@@ -26,12 +40,31 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const summary = body?.summary ?? {};
-    const device = body?.device ?? {};
+    if (!body || typeof body !== "object") {
+      return NextResponse.json(
+        { error: "Invalid payload format" },
+        { status: 400 },
+      );
+    }
+
+    const incoming = body as IncomingBody;
+    const normalizedPayload = {
+      ...incoming,
+      payload_version: "v1",
+      vulnerability_findings: normalizeArray(
+        incoming.vulnerability_findings,
+        200,
+      ),
+      events: normalizeArray(incoming.events, 500),
+    };
+
+    const summary = incoming.summary ?? {};
+    const device = incoming.device ?? {};
+    const deviceIp = typeof device?.ip === "string" ? device.ip : null;
 
     const { error } = await supabase.from("foxess_readings").insert({
-      reading_number: body?.reading_number ?? null,
-      device_ip: device?.ip ?? null,
+      reading_number: incoming.reading_number ?? null,
+      device_ip: deviceIp,
       device_port: device?.port ?? null,
       device_id: device?.device_id ?? null,
       total_pv_power_w: summary?.total_pv_power_w ?? null,
@@ -43,7 +76,7 @@ export async function POST(req: Request) {
       battery_soh_pct: summary?.battery_soh_pct ?? null,
       grid_frequency_hz: summary?.grid_frequency_hz ?? null,
       inverter_temperature_c: summary?.inverter_temperature_c ?? null,
-      payload: body,
+      payload: normalizedPayload,
     });
 
     if (error) {
@@ -51,6 +84,25 @@ export async function POST(req: Request) {
         { error: "Database insert failed", details: error.message },
         { status: 500 },
       );
+    }
+
+    if (deviceIp) {
+      // Keep ingestion resilient: asset sync failures should not block telemetry writes.
+      const { error: syncError } = await supabase.from("assets").upsert(
+        [
+          {
+            ip: deviceIp,
+            name: `Auto Device ${deviceIp}`,
+            scannable: true,
+            is_active: true,
+          },
+        ] as never[],
+        { onConflict: "ip" },
+      );
+
+      if (syncError) {
+        console.warn("Asset auto-sync failed:", syncError.message);
+      }
     }
 
     return NextResponse.json({ success: true });
