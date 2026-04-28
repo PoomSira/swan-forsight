@@ -3,14 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppTopbar } from "@/components/app-topbar";
 import { DynamicBreadcrumb } from "@/components/dynamic-breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,26 +22,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} antialiased`}>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>
-            <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-              <div className="flex items-center gap-2 px-4">
-                <SidebarTrigger className="-ml-1" />
-                <Separator
-                  orientation="vertical"
-                  className="mr-2 data-[orientation=vertical]:h-4"
-                />
-                <DynamicBreadcrumb />
-              </div>
-            </header>
-            <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-              {children}
-            </div>
-          </SidebarInset>
-        </SidebarProvider>
+    <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
+      <body className={`${inter.variable} antialiased min-h-screen flex flex-col bg-zinc-50 dark:bg-[#09090b] transition-colors duration-300`}>
+        <AppTopbar />
+        <div className="md:px-8 px-4 pt-4 max-w-[1600px] mx-auto w-full">
+          <DynamicBreadcrumb />
+        </div>
+        <main className="flex-1 flex flex-col relative">
+          {children}
+        </main>
       </body>
     </html>
   );
